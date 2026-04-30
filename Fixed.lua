@@ -1,4 +1,4 @@
-wait(50)
+wait(10)
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -6,18 +6,17 @@ local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 local UserInputService = game:GetService("UserInputService")
 
--- ⚙️ ไอดีโลก
 local FARM_WORLD = 125804922932357
 local SELL_WORLD = 3475397644
 
--- ⚙️ การตั้งค่า
+
 local SELL_THRESHOLD = 10000
 local autoFarm = true
 local flySpeed = 500
 local attackDelay = 0.3
 local scanRange = 500
 
--- 🌍 ตัวแปรสถานะ
+
 local Character, HRP
 local noclipEnabled = true
 local noclipConnection = nil
@@ -25,9 +24,6 @@ local antiAFKEnabled = true
 local lastActionTime = tick()
 local currentPatrolIndex = 1
 
-----------------------------------------------------------------
--- 🚫 เขตห้ามเข้า
-----------------------------------------------------------------
 local NO_GO_ZONES = {
     {position = Vector3.new(26.3707275, 86.2353973, -736.170044, -0.69808054, 0, 0.716019273, 0, 1, 0, -0.716019273, 0, -0.69808054), radius = 50},
     {position = Vector3.new(-320.14, 88.55, -752.41), radius = 50},
@@ -52,9 +48,7 @@ local checkPositions = {
     Vector3.new(-871.345459, 729.648499, -4265.88428, -0.996277034, -0.0673479885, -0.0538170971, -3.22684923e-06, 0.624290526, -0.781192243, 0.0862092301, -0.778283715, -0.621966541), Vector3.new(2054.2915, 637.171509, -2390.35693, -0.956742585, 0.227606624, 0.181214899, 3.88344642e-06, 0.622879088, -0.782318115, -0.290935755, -0.748476326, -0.595935881),
 }
 
-----------------------------------------------------------------
--- 🛡️ ฟังก์ชันช่วย
-----------------------------------------------------------------
+
 function safeFireSignal(signal)
     if typeof(signal) == "RBXScriptSignal" and firesignal then
         firesignal(signal)
@@ -87,23 +81,18 @@ function isInNoGoZone(pos)
     return false, nil
 end
 
-----------------------------------------------------------------
--- ประกาศตัวแปรฟังก์ชันก่อน
-----------------------------------------------------------------
+
 local bindCharacter
 local enableNoclip
 local disableNoclip
 local ensureMountedDragon
 
-----------------------------------------------------------------
--- 👻 ระบบ Noclip
-----------------------------------------------------------------
 enableNoclip = function()
     if noclipConnection then 
         noclipConnection:Disconnect()
     end
     
-    print("👻 เปิดใช้งาน Noclip")
+    print(" เปิดใช้งาน Noclip")
     
     noclipConnection = RunService.Stepped:Connect(function()
         if not noclipEnabled or not Character then return end
@@ -131,9 +120,6 @@ disableNoclip = function()
     end
 end
 
-----------------------------------------------------------------
--- 🔄 ระบบ Bind Character
-----------------------------------------------------------------
 bindCharacter = function(char)
     Character = char
     HRP = char:WaitForChild("HumanoidRootPart", 10)
@@ -184,9 +170,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
     end
 end)
 
-----------------------------------------------------------------
--- 🛡️ ระบบ Anti-AFK
-----------------------------------------------------------------
+
 function setupAntiAFK()
     print("🛡️ เปิดใช้งานระบบ Anti-AFK")
     
@@ -236,9 +220,6 @@ function setupAntiAFK()
     end)
 end
 
-----------------------------------------------------------------
--- 🎨 ระบบ GUI
-----------------------------------------------------------------
 function createGUI()
     if game.CoreGui:FindFirstChild("FarmGUI") then
         game.CoreGui.FarmGUI:Destroy()
@@ -348,9 +329,7 @@ function createGUI()
     end)
 end
 
-----------------------------------------------------------------
--- 🌍 ระบบวาร์ปและขาย
-----------------------------------------------------------------
+
 function sellAllItems()
     print("💰 เริ่มขายไอเทมทั้งหมด...")
     
@@ -456,9 +435,6 @@ function startWorldChecker()
     end)
 end
 
-----------------------------------------------------------------
--- 🧲 ระบบเก็บไอเทม
-----------------------------------------------------------------
 function TouchFoodModel(model)
     if not model or not model:IsA("Model") then return false end
     
@@ -566,7 +542,7 @@ function findNearestNode()
     local nodePos = billboard.Position
     local blocked = isInNoGoZone(nodePos)
     if blocked then return nil end
-    if nodePos.Y < 234 then return nil end
+    if nodePos.Y < 50 then return nil end
     return billboard
 end
 function flyToPosition(targetPos, speed)
