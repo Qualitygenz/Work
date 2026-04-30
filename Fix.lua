@@ -1,4 +1,4 @@
-Wait(10)
+Wait(50)
 local Plr = game:GetService("Players").LocalPlayer
 local RS = game:GetService("ReplicatedStorage")
 local Run = game:GetService("RunService")
